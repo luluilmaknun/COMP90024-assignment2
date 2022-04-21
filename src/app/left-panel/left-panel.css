@@ -1,0 +1,12 @@
+.left-panel-class {
+    padding: 45px;    
+}
+
+.left-panel-class a {
+    text-decoration: none;
+    padding: 10px;
+}
+
+.left-panel-class a h2{
+    font-weight: bold;
+}

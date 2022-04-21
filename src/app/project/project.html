@@ -1,0 +1,39 @@
+<div class="project">
+    <h2>Cluster and Cloud Computing Assignment 2</h2>
+    <h2>Melbourne the Most Liveable City…?</h2>
+
+    <h3>Assignment Description</h3>
+    <p>
+        The software engineering activity builds on the lecture materials describing Cloud systems and
+especially the UniMelb Research Cloud (MRC - https://dashboard.cloud.unimelb.edu.au) and its use
+of OpenStack; on data from the Twitter APIs, and CouchDB and the kinds of data analytics (e.g.
+MapReduce) that CouchDB supports as well as data from the Australian Urban Research
+Infrastructure Network (AURIN – https://portal.aurin.org.au). The focus of this assignment is to
+harvest tweets from Melbourne on the MRC and undertake a variety of social media data analytics
+scenarios that explore liveability of Melbourne and importantly how the Twitter data can be used
+alongside/compared with/augment the data available within the AURIN platform to improve our
+knowledge of the liveability of Melbourne. Teams can download data from the AURIN platform, e.g. as
+JSON, CSV or Shapefiles, or using the AURIN openAPI (https://aurin.org.au/aurin-apis/). This data
+can/should be included into the team’s CouchDB database for analysis with Twitter data.
+The liveability of a city is based on a set of indicators including housing, neighbourhood, transportation,
+environment, health, engagement, and opportunity (see https://livabilityindex.aarp.org/how-arelivability-
+scores-determined). The goal here is to explore aspects of liveability through one or more of
+these indicators. You are not expected to develop scenarios covering them all.
+The teams should develop a Cloud-based solution that exploits a multitude of virtual machines (VMs)
+across the MRC for harvesting tweets through the Twitter APIs (using both the Streaming and the
+Search API interfaces). A large corpus of historic Twitter data for Melbourne will also be provided.
+The teams should produce a solution that can be run (in principle) across any node of the MRC to
+harvest and store tweets and scale up/down as required. Teams have been allocated 4 servers
+(instances) with 8 virtual CPUs and 500Gb of volume storage. All students have access to the NeCTAR
+Research Cloud as individual users and can test/develop their applications using their own (small)
+VM instances, e.g., using personal instances such as pt-1234. (Remembering that there is no
+persistence in these small, free and dynamically allocated VMs).
+The solution should include one or more Twitter harvesting applications for Melbourne, e.g., you may
+have one for housing related tweets and one for health-related tweets. Each team member should get
+one or more Twitter developer tokens to access the Twitter APIs as accounts are capped. The teams
+are expected to have multiple instances of this harvesting application running on the MRC together
+with an associated CouchDB database containing the amalgamated collection of Tweets. The CouchDB
+setup may be a single node or based on a cluster setup. The system should be designed so that
+duplicate tweets will not arise.
+    </p>
+</div>

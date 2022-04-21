@@ -1,0 +1,17 @@
+/* AppComponent's private CSS styles */
+h1 {
+  margin-bottom: 0;
+}
+.app {
+  width: 100vw;
+  height: 100vh;
+  display:inline-block;
+}
+
+.router-outlet{
+  width: 85%;
+}
+
+.container {
+  width: 100%;
+}
