@@ -25,12 +25,11 @@ class StreamListener(tw.StreamListener):
 
         # Calculate sentiment
         sentiment = get_sentiment(self.sentiment_pipeline, tweet)
-        tweets['sentiment'] = sentiment
+        tweets['sentiment'] = sentiment['sentiment']
 
         # read and filter data by keywords
         if any(word in tweet for word in self.keywords):    
             tweets['electric_car'] = 1
-        print(tweets)
 
         # put into database
         ## TODO
