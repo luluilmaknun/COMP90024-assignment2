@@ -1,1 +1,4 @@
-tweepy==4.8.0
+tweepy==3.10.0
+transformers==4.18.0
+emoji==1.7.0
+pysentimiento==0.3.2

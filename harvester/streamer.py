@@ -1,10 +1,13 @@
 import tweepy as tw
 import json
 
+from util import get_sentiment
+
 
 class StreamListener(tw.StreamListener):
-    def __init__(self, keywords):
+    def __init__(self, keywords, sentiment_pipeline):
         self.keywords = keywords
+        self.sentiment_pipeline = sentiment_pipeline
         pass
 
     def on_data(self, data):
@@ -13,19 +16,21 @@ class StreamListener(tw.StreamListener):
         method goes here.
         """
         tweets = json.loads(data)
+        tweets['electric_car'] = 0
+
+        if tweets['truncated'] == True:
+            tweet = tweets['extended_tweet']['full_text']
+        else:
+            tweet = tweets['text']
+
+        # Calculate sentiment
+        sentiment = get_sentiment(self.sentiment_pipeline, tweet)
+        tweets['sentiment'] = sentiment
 
         # read and filter data by keywords
-        if any(word in tweets['text'] for word in self.keywords):
-            created_at = tweets['created_at']
-            coordinates = tweets['coordinates']
-            place = tweets['place']
-            if 'extended_tweet' in tweets:
-                tweet = tweets['extended_tweet']['full_text']
-            else:
-                tweet = tweets['text']
-
-        # preprocess data
-        ## TODO
+        if any(word in tweet for word in self.keywords):    
+            tweets['electric_car'] = 1
+        print(tweets)
 
         # put into database
         ## TODO
