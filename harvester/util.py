@@ -36,8 +36,14 @@ def get_sentiment(sentiment_analyzer, tweet_text):
 # make '_id' key if it doesn't exist (couchdb looks for '_id' for document key) -> tweet id as db key prevents duplicates
 def couchify_tweet(tweet_json):
     keys_to_exclude = ["_rev"]
-    json_couchified = {key: tweet_json[key] for key in keys_to_exclude if key not in keys_to_exclude}
+    json_couchified = {key: tweet_json[key] for key in tweet_json.keys() if key not in keys_to_exclude}
     if "_id" not in json_couchified:
-        json_couchified["_id"] = json_couchified["id"]
+        json_couchified["_id"] = str(json_couchified["id"])
     return json_couchified
 
+def create_or_connect_db(couchserver, db_name):
+    if db_name in couchserver:
+        db = couchserver[db_name]
+    else:
+        db = couchserver.create(db_name)
+    return db
