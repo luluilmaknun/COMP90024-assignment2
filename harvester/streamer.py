@@ -5,9 +5,9 @@ from util import get_sentiment
 
 
 class StreamListener(tw.StreamListener):
-    def __init__(self, keywords, sentiment_pipeline):
+    def __init__(self, keywords, sentiment_analyzer):
         self.keywords = keywords
-        self.sentiment_pipeline = sentiment_pipeline
+        self.sentiment_analyzer = sentiment_analyzer
         pass
 
     def on_data(self, data):
@@ -24,8 +24,10 @@ class StreamListener(tw.StreamListener):
             tweet = tweets['text']
 
         # Calculate sentiment
-        sentiment = get_sentiment(self.sentiment_pipeline, tweet)
-        tweets['sentiment'] = sentiment['sentiment']
+        sentiment_label, sentiment_prob = get_sentiment(self.sentiment_analyzer, tweet)
+        tweets['sentiment_label'] = sentiment_label
+        tweets['sentiment_prob'] = sentiment_prob
+        print(tweets['sentiment_label'], tweets['sentiment_prob'])
 
         # read and filter data by keywords
         if any(word in tweet for word in self.keywords):    

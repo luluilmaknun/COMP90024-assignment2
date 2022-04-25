@@ -1,5 +1,6 @@
 import tweepy as tw
 import json
+from pysentimiento import create_analyzer
 
 from streamer import StreamListener
 from transformers import pipeline
@@ -15,8 +16,9 @@ for keyword in KEYWORDS:
     keywords.append(hash)
 keywords += KEYWORDS
 
-# Sentiment Analysis pipeline
-sentiment_analysis = pipeline(model="finiteautomata/bertweet-base-sentiment-analysis")
+# Sentiment Analysis model
+print('Load sentiment analyzer...')
+sentiment_analyzer = create_analyzer(task="sentiment", lang="en")
 
 # Connect to API stream
 auth = tw.OAuthHandler(AUTH["CONSUMER_KEY"], 
@@ -27,7 +29,7 @@ api = tw.API(auth, wait_on_rate_limit=True)
 
 # Stream
 mystream_listener = StreamListener(keywords=KEYWORDS,
-                                   sentiment_pipeline=sentiment_analysis)
+                                   sentiment_analyzer=sentiment_analyzer)
 mystream = tw.Stream(auth=api.auth, listener=mystream_listener)
 
 # Filter twitter
