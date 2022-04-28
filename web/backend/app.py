@@ -2,7 +2,7 @@ import json
 import couchdb
 
 from flask_cors import CORS
-from flask import Flask, Response
+from flask import Flask, jsonify
 from flask_restful import Resource, Api
 from couchdb_config import DB_URI, DB_LIST
 from util import *
@@ -21,9 +21,7 @@ class Analysis(Resource):
         analysis = {}
         analysis["sentiment"] = dummy()
 
-        return Response(response=json.dumps({
-            "output": analysis
-        }))
+        return jsonify(output=analysis)
 
 
 class Tweet(Resource):
@@ -39,10 +37,10 @@ class Tweet(Resource):
             data = [row['doc'] for row in rows]
             output += data        
 
-        return Response(response=json.dumps({
-            "total": len(output),
-            "rows": output
-        }))
+        return jsonify(
+            total=len(output),
+            rows=output
+        )
 
 
 api.add_resource(Analysis, '/analysis')
