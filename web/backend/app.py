@@ -43,8 +43,8 @@ class Tweet(Resource):
         )
 
 
-api.add_resource(Analysis, '/analysis')
-api.add_resource(Tweet, '/tweet')
+api.add_resource(Analysis, '/api/analysis')
+api.add_resource(Tweet, '/api/tweet')
 
 
 if __name__ == '__main__':
