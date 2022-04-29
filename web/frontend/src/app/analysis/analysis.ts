@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalysisService } from './analysis.service';
-import { Analysis } from './analysis.model';
-import { ConnectableObservable } from 'rxjs';
 
 
 @Component({
@@ -10,7 +8,7 @@ import { ConnectableObservable } from 'rxjs';
   styleUrls: ['./analysis.css']
 })
 export class AnalysisComponent implements OnInit {
-  analysisRes: Analysis[] = [];
+  analysisRes: any = {};
 
   constructor(private analysisApi: AnalysisService) {
   }

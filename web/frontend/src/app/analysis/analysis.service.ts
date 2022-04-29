@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Analysis } from './analysis.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class AnalysisService {
   // GET list of analysis
   public getAnalysis() {
     return this.http
-      .get<Analysis[]>(`api/analysis`)
+      .get<any>(`api/analysis`)
       .pipe(catchError(AnalysisService._handleError));
   }
 }
