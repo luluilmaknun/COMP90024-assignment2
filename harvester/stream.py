@@ -5,17 +5,24 @@ import couchdb
 
 from streamer import StreamListener
 from transformers import pipeline
-from harvester_config import AUTH, KEYWORDS, LOCATIONS, COUCHDB_ADDRESS
+from harvester_config import AUTH, KEYWORDS_ELECTRIC_CARS, KEYWORDS_RECYCLING, KEYWORDS_SOLAR, LOCATIONS, COUCHDB_ADDRESS
 from util import create_or_connect_db
 
+############################# ENSURE VPN IS ENABLED (if you want to run locally) ###############################
+
 # Read configuration
-keywords = []
-for keyword in KEYWORDS:
-    hash = "#"
-    for word in keyword:
-        hash += word
-    keywords.append(hash)
-keywords += KEYWORDS
+
+# add #keywords as well to keywords list
+keywords_dict = {}
+for topic in ('electric_cars', 'recycling', 'solar'):
+    keywords = []
+    for keyword in KEYWORDS_ELECTRIC_CARS:
+        hash = "#"
+        for word in keyword:
+            hash += word
+        keywords.append(hash)
+    keywords += KEYWORDS_ELECTRIC_CARS
+    keywords_dict[topic] = keywords
 
 # Sentiment Analysis model
 print('\nLoad sentiment analyzer...')
@@ -36,7 +43,7 @@ db = create_or_connect_db(couchserver=couchserver,
 print(db)
 
 # Stream
-mystream_listener = StreamListener(keywords=KEYWORDS,
+mystream_listener = StreamListener(keywords_dict=keywords_dict,
                                    sentiment_analyzer=sentiment_analyzer,
                                    database = db)
 mystream = tw.Stream(auth=api.auth, listener=mystream_listener)
