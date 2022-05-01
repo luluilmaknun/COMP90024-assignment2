@@ -6,7 +6,7 @@ import argparse
 
 from streamer import StreamListener
 from transformers import pipeline
-from harvester_config import AUTH, KEYWORDS_ELECTRIC_CARS, KEYWORDS_RECYCLING, KEYWORDS_SOLAR, LOCATIONS, COUCHDB_ADDRESS
+from harvester_config import AUTH, KEYWORDS, LOCATIONS, COUCHDB_ADDRESS
 from util import create_or_connect_db
 
 ############################# ENSURE VPN IS ENABLED (if you want to run locally) ###############################
@@ -23,12 +23,12 @@ print(f'\nSearch region is "{search_region}" with bounding box {search_box}...')
 keywords_dict = {}
 for topic in ('electric_cars', 'recycling', 'solar'):
     keywords = []
-    for keyword in KEYWORDS_ELECTRIC_CARS:
+    for keyword in KEYWORDS[topic]:
         hash = "#"
-        for word in keyword:
+        for word in keyword.split(" "):
             hash += word
         keywords.append(hash)
-    keywords += KEYWORDS_ELECTRIC_CARS
+    keywords += KEYWORDS[topic]
     keywords_dict[topic] = keywords
 
 # Sentiment Analysis model

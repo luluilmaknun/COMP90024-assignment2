@@ -19,7 +19,7 @@ class StreamListener(tw.StreamListener):
         """
         tweets = json.loads(data)
         print(f"tweet id: {tweets['id']}")
-        tweets['electric_car'] = 0
+        tweets['electric_cars'] = 0
         tweets['recycling'] = 0
         tweets['solar'] = 0
 

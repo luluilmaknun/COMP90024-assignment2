@@ -5,26 +5,26 @@ AUTH = {
     "ACCESS_TOKEN_SECRET": "VY74YrL3o9T48nxM5i4lBKajESQxtX6WYFUlETUYKR2HT",
 }
 
-KEYWORDS_ELECTRIC_CARS = [
-    "drive electric", "electric future", "electric car", "electric vehicle", "modelx", "ev conversion",
-    "elon musk", "tesla ", "tesla life", "tesla car", "tesla roadster", "tesla motors", "tesla model",
-    "car charger", "self driving", "urban mobility", "zero emissions", "electric mobility", "emobility",
-    "self driving car", "autonomous vehicle", "autonomous car", "future car", "ev sales", "ev battery",
-    "autonomous driving", "audietron", "alternative fuel", "connected vehicle", "connected car",
-    "mahindra"]
-
-KEYWORDS_RECYCLING = [
-    'reuse', 'waste', 'composting', 'landfill', 'conserve', 'receptacles', 'disposal', 'recycle',
-    'biodegradable', 'yellow bin', 'e-waste', 'reusable', 'reprocessing', 'recycled', 'recyclebots',
-    'waste paper', 'carbon neutral', 'reduce']
-
-KEYWORDS_SOLAR = [
-    'solar', 'solar panels', 'solar battery', 'csp', 'renewable energy', 'elon musk', 
-    'sun power', 'photovoltaic', 'cell', 'wind turbine', 'hydro', 'solar city', 'windmill',
-    'green energy', 'geothermal', 'biomass', 'carbon tax', 'carbon policy', 'C02 footprint', 
-    'EBITDA', 'Enova', 'Diamond Energy', 'Momentum Energy', 'Aurora Energy', 'Tilt', 'WestWind',
-    'FinnBiogas', 'biogas', 'Acciona'
-]
+KEYWORDS = {
+    'electric_cars': [
+        "drive electric", "electric future", "electric car", "electric vehicle", "modelx", "ev conversion",
+        "elon musk", "tesla ", "tesla life", "tesla car", "tesla roadster", "tesla motors", "tesla model",
+        "car charger", "self driving", "urban mobility", "zero emissions", "electric mobility", "emobility",
+        "self driving car", "autonomous vehicle", "autonomous car", "future car", "ev sales", "ev battery",
+        "autonomous driving", "audietron", "alternative fuel", "connected vehicle", "connected car",
+        "mahindra"],
+    'recycling': [
+        'reuse', 'waste', 'composting', 'landfill', 'conserve', 'receptacles', 'disposal', 'recycle',
+        'biodegradable', 'yellow bin', 'e-waste', 'reusable', 'reprocessing', 'recycled', 'recyclebots',
+        'waste paper', 'carbon neutral', 'reduce'],
+    'solar': [
+        'solar', 'solar panels', 'solar battery', 'csp', 'renewable energy', 'elon musk', 
+        'sun power', 'photovoltaic', 'cell', 'wind turbine', 'hydro', 'solar city', 'windmill',
+        'green energy', 'geothermal', 'biomass', 'carbon tax', 'carbon policy', 'C02 footprint', 
+        'EBITDA', 'Enova', 'Diamond Energy', 'Momentum Energy', 'Aurora Energy', 'Tilt', 'WestWind',
+        'FinnBiogas', 'biogas', 'Acciona'
+    ]
+}
 
 # LOCATIONS = [144.6845, -38.0815, 145.3540, -37.5934]
 LOCATIONS = {}
