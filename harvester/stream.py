@@ -36,10 +36,10 @@ print('\nLoad sentiment analyzer, may take >10 sec...')
 sentiment_analyzer = create_analyzer(task="sentiment", lang="en")
 
 # Connect to API stream
-auth = tw.OAuthHandler(AUTH["CONSUMER_KEY"], 
-                       AUTH["CONSUMER_KEY_SECRET"])
-auth.set_access_token(AUTH["ACCESS_TOKEN"], 
-                      AUTH["ACCESS_TOKEN_SECRET"])
+auth = tw.OAuthHandler(AUTH[search_region]["CONSUMER_KEY"], 
+                       AUTH[search_region]["CONSUMER_KEY_SECRET"])
+auth.set_access_token(AUTH[search_region]["ACCESS_TOKEN"], 
+                      AUTH[search_region]["ACCESS_TOKEN_SECRET"])
 api = tw.API(auth, wait_on_rate_limit=True)
 
 # Couchdb. Need to have unimelb vpn active
