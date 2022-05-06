@@ -1,3 +1,10 @@
+- name: install python docker client on the workers
+  become: true
+  ansible.builtin.pip:
+    name: ['docker']
+    state: latest
+
+
 - name: "build docker container image"
   become: true
   docker_image:

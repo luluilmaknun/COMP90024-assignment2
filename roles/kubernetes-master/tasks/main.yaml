@@ -57,6 +57,26 @@
     - name: checking the status of kubernetes cluster
       command: bash /tmp/kubernetes-status-checker.sh
 
+    - name: Install pip
+      become: yes
+      ansible.builtin.apt:
+        name: ['python3-dev', 'python3-setuptools', 'python3-pip']
+        state: latest
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Installing Openshift for kubernetes
+      ansible.builtin.pip:
+        name: ['pip']
+        state: latest
+
+    - name: Installing Openshift for kubernetes
+      ansible.builtin.pip:
+        name: ['kubernetes==11.0.0','openshift==0.11.2']
+        state: latest
+
+
+
     - name: checking k8s
       become_user: ubuntu
       k8s:
