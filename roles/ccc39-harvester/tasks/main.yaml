@@ -1,0 +1,36 @@
+## there should be something about the secrets and stuff. and there should be the deployments of the k8s objects for the kubernetes cluster.
+
+- name: deployment for the harvesters
+  vars:
+    harvester_regions:
+    - north
+    - south
+    - east
+    - west
+  k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: "harvester-{{item}}"
+        labels:
+          app: "harvester-{{item}}"
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: "harvester-{{item}}"
+        template:
+          metadata:
+            labels:
+              app: "harvester-{{item}}"
+          spec:
+            containers:
+            - name: "harvester-{{item}}"
+              image: harvester
+              imagePullPolicy: Never
+              env:
+              - name: REGION
+                value: "{{item}}"
+    loop: "{{harvester_regions}}"  

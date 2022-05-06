@@ -1,0 +1,12 @@
+- name: Copy the join command to server location
+  copy: src=manifests/join-command dest=/tmp/join-command.sh mode=0777
+ 
+- name: Copy the join command to server location
+  copy: src=manifests/worker-status-checker.sh dest=/tmp/worker-status-checker.sh mode=0777
+
+
+- name: Join the node to cluster
+  command: sh /tmp/worker-status-checker.sh
+
+
+

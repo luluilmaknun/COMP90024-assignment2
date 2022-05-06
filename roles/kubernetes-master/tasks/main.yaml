@@ -1,0 +1,86 @@
+    - name: check if the kubeadm files exists  on the master node before initializing the cluster
+      become: true
+      shell: |
+              if [ -f "/etc/kubernetes/manifests/kube-apiserver.yaml" ] && [ -f "/etc/kubernetes/manifests/kube-controller-manager.yaml" ] && [ -f "/etc/kubernetes/manifests/kube-scheduler.yaml" ] && [ -f "/etc/kubernetes/manifests/etcd.yaml" ]
+              then
+                 echo "0"
+              else
+                 echo "1"
+              fi
+      register: filecheck 
+
+    - name: initialize the cluster
+      become: true
+      shell: "kubeadm init --apiserver-advertise-address={{hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]}} --pod-network-cidr=192.168.0.0/16"
+      args:
+          chdir: $HOME
+          creates: cluster_initialized.txt
+      when: filecheck.stdout == "1"
+
+    - name: create .kube directory      
+      become: true
+      become_user: ubuntu
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: copies admin.conf to user's kube config
+      become: true
+#      become_user: ubuntu
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ubuntu/.kube/config
+        remote_src: yes
+        owner: ubuntu
+
+#    - name: copies admin.conf to user's kube config
+#      become: true
+#      become_user: ubuntu
+#      shell: |
+#              sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+#              sudo chown $(id -u):$(id -g) $HOME/.kube/config
+#              exit $?
+    
+#    - name: checking k8s
+#      become_user: ubuntu
+#      k8s:
+#        api_version: v1
+#        kind: Namespace
+#        name: default
+#        state: present
+    
+    - name: copying the kubernetes-status-checker.sh script
+      become: true
+      copy: src=manifests/kubernetes-status-checker.sh dest=/tmp/kubernetes-status-checker.sh mode=0777
+
+    - name: checking the status of kubernetes cluster
+      command: bash /tmp/kubernetes-status-checker.sh
+
+    - name: checking k8s
+      become_user: ubuntu
+      k8s:
+        api_version: v1
+        kind: Namespace
+        name: default
+        state: present
+
+    - name: checking kubectl
+#      become: false
+#      become_user: ubuntu
+      shell: pwd; whoami; KUBECONFIG=/home/ubuntu/.kube/config ; kubectl get pods --kubeconfig=/home/ubuntu/.kube/config   
+
+    - name: install Pod network
+      become_user: ubuntu
+      shell: kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml --kubeconfig=/home/ubuntu/.kube/config
+      args:
+        chdir: $HOME
+        
+    - name: Get the token for joining the worker nodes
+      become: true
+      become_user: ubuntu
+      shell: kubeadm token create  --print-join-command
+      register: kubernetes_join_command
+
+    - name: Copy join command to local file
+      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="./manifests/join-command"

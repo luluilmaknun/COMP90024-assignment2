@@ -1,0 +1,122 @@
+    - name: couchdb volumes persistent volumes
+      vars:
+        volume_names:
+          - couch-vol-1
+          - couch-vol-2
+          - couch-vol-3
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: "{{item}}"
+            labels:
+              volume: couch-volume
+          spec:
+            capacity:
+              storage: 50Gi
+            accessModes:
+              - ReadWriteOnce
+            hostPath:
+              path: "/home/ubuntu/ccc39-assignment/data/couchdb"
+        loop: '{{volume_names}}'
+
+    - name: couchdb clusterIP services
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: couch-service
+            namespace: default
+            labels:
+              app: couch
+          spec:
+            type: ClusterIP
+            clusterIP: None
+            ports:
+            - port: 5984
+              protocol: TCP
+              targetPort: 5984
+            selector:
+              app: couch         # label selector
+
+    - name: couchdb nodeport services
+      k8s:
+        state: present
+        definition:
+          kind: Service
+          apiVersion: v1
+          metadata:
+            name: couch-nodep-svc
+            labels:
+              app: couch
+          spec:
+            type: NodePort            # NodePort service
+            ports:
+            - port: 5984
+              nodePort: 30984         # external port
+              protocol: TCP
+            selector:
+              app: couch       # label selector
+    - name: coucdb statefulset object
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: StatefulSet
+          metadata:
+            name: couchdb
+          spec:
+            serviceName: "couch-service"
+            replicas: 3
+            selector:
+              matchLabels:
+                app: couch
+            template:
+              metadata:
+                labels:
+                  app: couch # pod label
+              spec:
+                containers:
+                - name: couchdb
+                  image: couchdb:2.2.0
+                  env:
+                  - name: NODE_NETBIOS_NAME
+                    valueFrom:
+                      fieldRef:
+                        fieldPath: metadata.name
+                  - name: NODENAME
+                    value: $(NODE_NETBIOS_NAME).couch-service # FQDN in vm.args
+                  - name: COUCHDB_USER
+                    value: admin
+                  - name: COUCHDB_PASSWORD
+                    value: password
+                  - name: COUCHDB_SECRET
+                    value: monster
+                  - name: ERL_FLAGS
+                    value: "-name couchdb@$(NODENAME)"
+                  - name: ERL_FLAGS
+                    value: "-setcookie monster" #   the “password” used when nodes connect to each other.
+                  ports:
+                  - name: couchdb
+                    containerPort: 5984
+                  - name: epmd
+                    containerPort: 4369
+                  - containerPort: 9100
+                  volumeMounts:
+                    - name: couch-pvc
+                      mountPath: /opt/couchdb/data
+            volumeClaimTemplates:
+            - metadata:
+                name: couch-pvc
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 50Gi
+                selector:
+                  matchLabels:
+                    volume: couch-volume

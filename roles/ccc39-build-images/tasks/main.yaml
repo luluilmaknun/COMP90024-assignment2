@@ -1,0 +1,9 @@
+- name: "build docker container image"
+  become: true
+  docker_image:
+    name: "{{item}}-ccc39"
+    build:
+      path: "./ccc39-assignment/{{item}}"
+    source: build
+    state: present
+  loop: "{{component}}"

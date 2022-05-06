@@ -1,0 +1,73 @@
+    - name: Wait for nodes to be ready
+      shell: "kubectl get nodes"
+      register: nodes
+      until:
+        - '" NotReady " not in nodes.stdout'
+      retries: 6
+      delay: 30
+
+    - name: output the node info
+      debug:
+        msg: "{{nodes}}"
+
+    - name: frontend deployment
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: frontend
+            namespace: default
+            labels:
+              app: frontend
+          spec:
+            replicas: 3
+            selector:
+              matchLabels:
+                app: frontend
+            template:
+              metadata:
+                labels:
+                  app: frontend
+              spec:
+                containers:
+                - name: frontend
+                  image: frontend-ccc39
+                  imagePullPolicy: Never
+                  ports:
+                  - containerPort: 4200
+    - name: check if deployment is ready
+      k8s_info:
+        kind: Deployment
+        label_selectors:
+          - app = frontend
+      register: output_info
+      until: output_info.resources | json_query('[*].status.conditions[?reason==`NewReplicaSetAvailable`][].status') | select ('match','True') | list | length == 1
+      delay: 10
+      retries: 5
+
+    - name: printing out the message
+      debug:
+        msg: '{{output_info}}'
+
+    - name: frontend service
+      k8s:
+        state: present
+        definition:
+          kind: Service
+          apiVersion: v1
+          metadata:
+            name: frontend-external
+            namespace: default
+            labels:
+              app: frontend
+          spec:
+            type: NodePort            # NodePort service
+            ports:
+            - port: 4200
+              targetPort: 4200
+              nodePort: 30080         # external port
+              protocol: TCP
+            selector:
+              app: frontend     # label selector

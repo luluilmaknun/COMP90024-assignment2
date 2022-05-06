@@ -1,0 +1,38 @@
+---
+- name: Install dependencies
+  become: yes
+  ansible.builtin.apt:
+    name: ['xfsprogs']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Make file system
+  become: yes
+  community.general.filesystem:
+    fstype: xfs
+    dev: /dev/vdb
+  when: /dev/vdb is defined
+
+- name: Checking folders
+  become: yes
+  ansible.builtin.stat:
+    path: "{{ volume_mountpoint }}"
+  register: directory_stats
+
+- name: Create directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ volume_mountpoint }}"
+    recurse: yes
+    state: directory
+  when: directory_stats.stat.exists == false
+
+- name: Mount device
+  become: yes
+  ansible.posix.mount:
+    path: "{{ volume_mountpoint }}"
+    src: /dev/vdb
+    fstype: xfs
+    state: mounted
+  when: /dev/vdb is defined
