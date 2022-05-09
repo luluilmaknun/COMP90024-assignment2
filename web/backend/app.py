@@ -12,17 +12,6 @@ api = Api(app)
 CORS(app)
 
 
-class Analysis(Resource):
-    def get(self):
-        # Function to return analysis result
-
-        # DUMMY, Change here
-        analysis = {}
-        analysis["sentiment"] = dummy()
-
-        return jsonify(output=analysis)
-
-
 class Tweet(Resource):
     def get(self):
         # Function to return all documents from databases
@@ -45,6 +34,7 @@ class TweetOfNorth(Resource):
     def get(self):
         # Function to return view from north melbourne from databases
         print("Entering database")
+        aurin_result = get_aurin(search_by="region", search_region="north")
         test = []
 
         db_name ='twitter_north'
@@ -56,13 +46,14 @@ class TweetOfNorth(Resource):
                 result["key"] = item.key
                 result["value"] = item.value
                 test.append(result)
-        # print(result)
-        return jsonify(output=test)
+
+        return jsonify(output=test, aurin=aurin_result)
 
 class TweetOfSouth(Resource):
     def get(self):
         # Function to return view from north melbourne from databases
         print("Entering database")
+        aurin_result = get_aurin(search_by="region", search_region="south")
         test = []
 
         db_name ='twitter_south'
@@ -74,13 +65,14 @@ class TweetOfSouth(Resource):
                 result["key"] = item.key
                 result["value"] = item.value
                 test.append(result)
-        # print(result)
-        return jsonify(output=test)
+
+        return jsonify(output=test, aurin=aurin_result)
 
 class TweetOfWest(Resource):
     def get(self):
         # Function to return view from north melbourne from databases
         print("Entering database")
+        aurin_result = get_aurin(search_by="region", search_region="west")
         test = []
 
         db_name ='twitter_west'
@@ -92,13 +84,14 @@ class TweetOfWest(Resource):
                 result["key"] = item.key
                 result["value"] = item.value
                 test.append(result)
-        # print(result)
-        return jsonify(output=test)
+
+        return jsonify(output=test, aurin=aurin_result)
 
 class TweetOfEast(Resource):
     def get(self):
         # Function to return view from north melbourne from databases
         print("Entering database")
+        aurin_result = get_aurin(search_by="region", search_region="east")
         test = []
 
         db_name ='twitter_east'
@@ -110,10 +103,9 @@ class TweetOfEast(Resource):
                 result["key"] = item.key
                 result["value"] = item.value
                 test.append(result)
-        # print(result)
-        return jsonify(output=test)
 
-api.add_resource(Analysis, '/api/analysis')
+        return jsonify(output=test, aurin=aurin_result)
+
 api.add_resource(Tweet, '/api/tweet')
 api.add_resource(TweetOfNorth, '/api/tweet/north')
 api.add_resource(TweetOfSouth, '/api/tweet/south')
