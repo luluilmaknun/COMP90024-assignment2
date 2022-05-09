@@ -15,10 +15,10 @@ AUTH = {
     },
     # HANNANS - change keys
     'north': {
-        "CONSUMER_KEY": "WpoHCTZpdnBO9GDDb8TaiCPE4",
-        "CONSUMER_KEY_SECRET": "stGYLL8cV9VcUSh2wljrkbw9cXQuMoisFQG9e19eH6QfWoIdHe",
-        "ACCESS_TOKEN": "1515880143889510400-DRbcnUvKAEBm6JRpSm7rtwbK9ykfJx",
-        "ACCESS_TOKEN_SECRET": "UQJk5ZtYk0ncr5Vq8Ko6WCI3pJiobgCts9gWO08sHjc1t"
+        "CONSUMER_KEY": "JhsoL6IczdxoEJR1YO9XGdvmD",
+        "CONSUMER_KEY_SECRET": "mQBSn7CWZsjgOK71pBb2E2ovhQiaksXMDmRTNhoqsXcLZrSJHd",
+        "ACCESS_TOKEN": "1513827450698235907-TOFjLbkVCZpb66kCdJqXLZ6D7jmDVu",
+        "ACCESS_TOKEN_SECRET": "bzTSp8Z1TRbwEGQCYS1vvnS0DKXmZMNJNXVrCDMZzuHJ7"
     },
     # gyus
     'south': {
