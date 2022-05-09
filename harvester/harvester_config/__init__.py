@@ -6,14 +6,14 @@ AUTH = {
         "ACCESS_TOKEN": "1514125532824502275-aGDxWMrxR4Qc1FCip9rxOww7vnGrQu",
         "ACCESS_TOKEN_SECRET": "VY74YrL3o9T48nxM5i4lBKajESQxtX6WYFUlETUYKR2HT"
     },
-    # lulus
+    # risla
     'east': {
-        "CONSUMER_KEY": "mxqyJYQQTjK8GELo7WuyF7PZL",
-        "CONSUMER_KEY_SECRET": "GCoiXIGJhixATDaGJPxnRsDAl8wkRFFSGPCQkZdeproCIrfKCV",
-        "ACCESS_TOKEN": "1514125532824502275-aGDxWMrxR4Qc1FCip9rxOww7vnGrQu",
-        "ACCESS_TOKEN_SECRET": "VY74YrL3o9T48nxM5i4lBKajESQxtX6WYFUlETUYKR2HT"
+        "CONSUMER_KEY": "WpoHCTZpdnBO9GDDb8TaiCPE4",
+        "CONSUMER_KEY_SECRET": "stGYLL8cV9VcUSh2wljrkbw9cXQuMoisFQG9e19eH6QfWoIdHe",
+        "ACCESS_TOKEN": "1515880143889510400-DRbcnUvKAEBm6JRpSm7rtwbK9ykfJx",
+        "ACCESS_TOKEN_SECRET": "UQJk5ZtYk0ncr5Vq8Ko6WCI3pJiobgCts9gWO08sHjc1t"
     },
-    # rislas
+    # HANNANS - change keys
     'north': {
         "CONSUMER_KEY": "WpoHCTZpdnBO9GDDb8TaiCPE4",
         "CONSUMER_KEY_SECRET": "stGYLL8cV9VcUSh2wljrkbw9cXQuMoisFQG9e19eH6QfWoIdHe",

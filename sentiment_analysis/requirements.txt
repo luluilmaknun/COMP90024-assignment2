@@ -3,5 +3,5 @@ emoji==1.7.0
 pysentimiento==0.3.2
 couchdb==1.2.0
 ijson==3.1.4
-# sentiment_analysis folder is for experiment only
+# sentiment_analysis folder is for experiment/historical uploads only
 # only /harvester is relevant
