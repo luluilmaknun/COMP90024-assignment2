@@ -8,10 +8,10 @@ Original file is located at
 """
 
 LOCATIONS = {}
-LOCATIONS["west"] = [144.317, -38.012, 144.856, -37.166]
-LOCATIONS["north"] = [144.856, -38.012, 145.107, -37.166]
-LOCATIONS["east"] = [145.115, -37.997, 145.490, -37.423]
-LOCATIONS["south"] = [144.629, -38.533, 145.546, -38.012]
+LOCATIONS["west"] = [144.317, -38.0, 144.856, -37.166]
+LOCATIONS["north"] = [144.856, -38.0, 145.185, -37.166]
+LOCATIONS["east"] = [145.185, -38.0, 145.901, -37.166]
+LOCATIONS["south"] = [144.655, -38.533, 145.901, -38.0]
 
 keywords_electriccar = ["drive electric", "electric future", "electric car", "electric vehicle", "modelx", "ev conversion",
     "elon musk", "tesla ", "tesla life", "tesla car", "tesla roadster", "tesla motors", "tesla model",
@@ -101,9 +101,40 @@ def limit_handled(cursor):
             break
 
 
+import os
+import json
+import argparse
+
+import couchdb
+
+# exclude '_rev' key in tweet_json and
+# make '_id' key if it doesn't exist (couchdb looks for '_id' for document key) -> tweet id as db key prevents duplicates
+
+def couchify_tweet(tweet_json):
+    keys_to_exclude = ["_rev"]
+    json_couchified = {key: tweet_json[key] for key in tweet_json.keys() if key not in keys_to_exclude}
+    if "_id" not in json_couchified:
+        json_couchified["_id"] = str(json_couchified["id"])
+    return json_couchified
+
+
+def create_or_connect_db(couchserver, db_name):
+    if db_name in couchserver:
+        db = couchserver[db_name]
+    else:
+        db = couchserver.create(db_name)
+    return db
+
+
 # Function to search tweets based on keywords
-def search_tweets(api, keywords_list, locations, sentiment_analyzer):
+def search_tweets(api, db, keywords_list, locations, sentiment_analyzer):
     for direction, loc in locations.items():
+        # Connect to DB
+        db_name = f"twitter_{direction}"
+        db = create_or_connect_db(couchserver=couchserver,
+                            db_name = db_name)
+        print(db)
+        
         # Get centre, assuming that earth is flat :))))
         lon = (loc[0] + loc[2])/2
         lat = (loc[1] + loc[3])/2
@@ -130,7 +161,7 @@ def search_tweets(api, keywords_list, locations, sentiment_analyzer):
 
                     for tweet in tweets:
                         result_json = tweet._json
-                        result_json['direction'] = direction
+                        # result_json['direction'] = direction
                         result_json['solar'] = 1 if topic == 'solar' else 0
                         result_json['recycling'] = 1 if topic == 'recycling' else 0
                         result_json['electric_cars'] = 1 if topic == 'electric_cars' else 0
@@ -138,13 +169,27 @@ def search_tweets(api, keywords_list, locations, sentiment_analyzer):
                         sentiment_label, sentiment_prob = get_sentiment(sentiment_analyzer, result_json['full_text'])
                         result_json['sentiment_label'] = sentiment_label
                         result_json['sentiment_prob'] = sentiment_prob
+                        print(direction, result_json['solar'], result_json['recycling'], result_json['electric_cars'], \
+                            result_json['sentiment_label'], result_json['sentiment_prob'])
 
                         result["items"].append(result_json)
+                        try:
+                            tweets_couchified = couchify_tweet(result_json)
+                            print('    uploading on couchdb')
+                            db.save(tweets_couchified)
+                            print('    upload completed')
+                        except couchdb.http.ResourceConflict:
+                            pass
 
                 result["total"] = len(result["items"])
                 json.dump(result, f)
 
             print(direction, topic, len(result["items"]))
 
-search_tweets(api, keywords_dict, config["LOCATIONS"], sentiment_analyzer)
+if __name__ == "__main__":
+    COUCHDB_ADDRESS = "http://dev:dev@172.26.131.7:5984/"
+    # Couchdb. Need to have unimelb vpn active
+    couchserver = couchdb.Server(COUCHDB_ADDRESS)
+    print('\n', couchserver)
 
+    search_tweets(api, couchserver, keywords_dict, config["LOCATIONS"], sentiment_analyzer)
