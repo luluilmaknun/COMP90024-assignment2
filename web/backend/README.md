@@ -35,7 +35,7 @@ Available `{search_region}`:
 * `east`
 
 #### Response
-Response body (serialized JSON) example:
+Response body (serialized JSON) example: (for region `east`)
 
     {
         "aurin": {
@@ -50,19 +50,17 @@ Response body (serialized JSON) example:
                 "total_solar_installation": "Total number of solar installation"
             }, 
             "result": {
-                "east": {
-                    "motor_vehicle": {
-                        "avg_dwelings": 4145.208333333333, 
-                        "avg_dwelings_with_mv": 4028.5208333333335, 
-                        "ratio_dwelings_with_mv": 0.9718500276423582, 
-                        "total_dwelings": 198970, 
-                        "total_dwelings_with_mv": 193369
-                    }, 
-                    "solar": {
-                        "avg_solar_installation": 762.875, 
-                        "perha_solar_installation": 0.12271168083301048, 
-                        "total_solar_installation": 36618
-                    }
+                "electric_cars": {
+                    "avg_dwelings": 4145.208333333333, 
+                    "avg_dwelings_with_mv": 4028.5208333333335, 
+                    "ratio_dwelings_with_mv": 0.9718500276423582, 
+                    "total_dwelings": 198970, 
+                    "total_dwelings_with_mv": 193369
+                }, 
+                "solar": {
+                    "avg_solar_installation": 762.875, 
+                    "perha_solar_installation": 0.12271168083301048, 
+                    "total_solar_installation": 36618
                 }
             }
         }, 
