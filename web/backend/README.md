@@ -134,3 +134,90 @@ Response body (serialized JSON) example: (for region `east`)
 There are two components on the response:
 * `aurin`: Result of AURIN data analysis
 * `output`: Result of Twitter sentiment analysis from database view in couch DB
+
+### Get analysis result based on topic
+
+#### Request
+`GET /api/tweet/{topic}/`
+
+Available `{topic}`: 
+* `electric_cars`
+* `recycling`
+* `solar`
+
+#### Response
+Response body (serialized JSON) example: (for `electric_cars`)
+
+    {
+        "aurin": {
+            "description": {
+                "avg_dwelings": "Average number of dwelings", 
+                "avg_dwelings_with_mv": "Average number of dwelings with at least one motor vehicle", 
+                "avg_solar_installation": "Average number of solar installation", 
+                "perha_solar_installation": "Ratio number of solar installation per hectare", 
+                "ratio_dwelings_with_mv": "Ratio number of dwelings with at least one motor vehicle per total dwelings", 
+                "total_dwelings": "Total number of dwelings", 
+                "total_dwelings_with_mv": "Total number of dwelings with at least one motor vehicle", 
+                "total_solar_installation": "Total number of solar installation"
+            }, 
+            "result": {
+                "east": {
+                    "avg_dwelings": 4145.208333333333, 
+                    "avg_dwelings_with_mv": 4028.5208333333335, 
+                    "ratio_dwelings_with_mv": 0.9718500276423582, 
+                    "total_dwelings": 198970, 
+                    "total_dwelings_with_mv": 193369
+                }, 
+                "north": {
+                    "avg_dwelings": 5336.547619047619, 
+                    "avg_dwelings_with_mv": 5168.702380952381, 
+                    "ratio_dwelings_with_mv": 0.9685479733196511, 
+                    "total_dwelings": 896540, 
+                    "total_dwelings_with_mv": 868342
+                }, 
+                "south": {
+                    "avg_dwelings": 5773.511627906977, 
+                    "avg_dwelings_with_mv": 5570.558139534884, 
+                    "ratio_dwelings_with_mv": 0.9648474790643717, 
+                    "total_dwelings": 248261, 
+                    "total_dwelings_with_mv": 239534
+                }, 
+                "west": {
+                    "avg_dwelings": 4639.714285714285, 
+                    "avg_dwelings_with_mv": 4481.469387755102, 
+                    "ratio_dwelings_with_mv": 0.9658933959691396, 
+                    "total_dwelings": 227346, 
+                    "total_dwelings_with_mv": 219592
+                }
+            }
+        }, 
+        "output": [
+            {
+            "NEG": 1, 
+            "NEU": 22, 
+            "POS": 6, 
+            "region": "north"
+            }, 
+            {
+            "NEG": 5, 
+            "NEU": 4, 
+            "region": "south"
+            }, 
+            {
+            "NEG": 5, 
+            "NEU": 5, 
+            "POS": 4, 
+            "region": "west"
+            }, 
+            {
+            "NEG": 5, 
+            "NEU": 3, 
+            "POS": 1, 
+            "region": "east"
+            }
+        ]
+        }
+
+There are two components on the response:
+* `aurin`: Result of AURIN data analysis
+* `output`: Result of Twitter sentiment analysis from database view in couch DB
