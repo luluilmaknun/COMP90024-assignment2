@@ -142,18 +142,10 @@ class TweetsOnRecycling(Resource):
 
         # query couchdb view to get the related data
         for db_name in DB_LIST:
-            region = ''
-            match db_name:
-                case "twitter_north":
-                    region = "north"
-                case "twitter_south":
-                    region = "south"
-                case "twitter_west":
-                    region = "west"
-                case "twitter_east":
-                    region = "east"
-                case _:
-                    continue
+            if db_name in ["twitter_north", "twitter_east", "twitter_west", "twitter_south"]:
+                region = db_name.split("_")[1]
+            else:
+                continue
 
             db = couch[db_name]
             rows = db.view('SentimentInfo/SentimentOfKey',
@@ -169,18 +161,17 @@ class TweetsOnRecycling(Resource):
                         regions.append(region)
                         result["region"] = region
 
-                    match label:
-                        case "NEG":
-                            labels.append(label)
-                            result["NEG"] = item.value
-                        case "NEU":
-                            labels.append(label)
-                            result["NEU"] = item.value
-                        case "POS":
-                            labels.append(label)
-                            result["POS"] = item.value
-                        case _:
-                            continue
+                    if label == "NEG":
+                        labels.append(label)
+                        result["NEG"] = item.value
+                    elif label == "NEU":
+                        labels.append(label)
+                        result["NEU"] = item.value
+                    elif label == "POS":
+                        labels.append(label)
+                        result["POS"] = item.value
+                    else:
+                        continue
 
                     if 'region' not in result.keys():
                         for i in test:
@@ -207,17 +198,10 @@ class TweetsOnSolar(Resource):
         # query couchdb view to get the related data
         for db_name in DB_LIST:
             region = ''
-            match db_name:
-                case "twitter_north":
-                    region = "north"
-                case "twitter_south":
-                    region = "south"
-                case "twitter_west":
-                    region = "west"
-                case "twitter_east":
-                    region = "east"
-                case _:
-                    continue
+            if db_name in ["twitter_north", "twitter_east", "twitter_west", "twitter_south"]:
+                region = db_name.split("_")[1]
+            else:
+                continue
 
             db = couch[db_name]
             rows = db.view('SentimentInfo/SentimentOfKey',
@@ -233,18 +217,17 @@ class TweetsOnSolar(Resource):
                         regions.append(region)
                         result["region"] = region
 
-                    match label:
-                        case "NEG":
-                            labels.append(label)
-                            result["NEG"] = item.value
-                        case "NEU":
-                            labels.append(label)
-                            result["NEU"] = item.value
-                        case "POS":
-                            labels.append(label)
-                            result["POS"] = item.value
-                        case _:
-                            continue
+                    if label == "NEG":
+                        labels.append(label)
+                        result["NEG"] = item.value
+                    elif label == "NEU":
+                        labels.append(label)
+                        result["NEU"] = item.value
+                    elif label == "POS":
+                        labels.append(label)
+                        result["POS"] = item.value
+                    else:
+                        continue
 
                     if 'region' not in result.keys():
                         for i in test:
@@ -269,17 +252,10 @@ class TweetsOnElectricCars(Resource):
         # query couchdb view to get the related data
         for db_name in DB_LIST:
             region = ''
-            match db_name:
-                case "twitter_north":
-                    region = "north"
-                case "twitter_south":
-                    region = "south"
-                case "twitter_west":
-                    region = "west"
-                case "twitter_east":
-                    region = "east"
-                case _:
-                    continue
+            if db_name in ["twitter_north", "twitter_east", "twitter_west", "twitter_south"]:
+                region = db_name.split("_")[1]
+            else:
+                continue
 
             db = couch[db_name]
             rows = db.view('SentimentInfo/SentimentOfKey',
@@ -295,18 +271,17 @@ class TweetsOnElectricCars(Resource):
                         regions.append(region)
                         result["region"] = region
 
-                    match label:
-                        case "NEG":
-                            labels.append(label)
-                            result["NEG"] = item.value
-                        case "NEU":
-                            labels.append(label)
-                            result["NEU"] = item.value
-                        case "POS":
-                            labels.append(label)
-                            result["POS"] = item.value
-                        case _:
-                            continue
+                    if label == "NEG":
+                        labels.append(label)
+                        result["NEG"] = item.value
+                    elif label == "NEU":
+                        labels.append(label)
+                        result["NEU"] = item.value
+                    elif label == "POS":
+                        labels.append(label)
+                        result["POS"] = item.value
+                    else:
+                        continue
 
                     if 'region' not in result.keys():
                         for i in test:
