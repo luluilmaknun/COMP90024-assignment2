@@ -40,3 +40,17 @@ def get_aurin(search_by="topic", search_region="all", search_topic="all"):
         output = aurin_result
 
     return output
+
+
+def compute_total_tweets(test):
+    test = test.copy()
+    for json_elem in test:
+        total_count = 0
+        for sentiment in ('NEG', 'NEU', 'POS'):
+            try:
+                total_count += json_elem[sentiment]
+            except:
+                json_elem[sentiment] = 0
+        json_elem["_TOTAL"] = total_count
+    return test
+    

@@ -181,6 +181,8 @@ class TweetsOnRecycling(Resource):
                     else:
                         test.append(result)
 
+            test = compute_total_tweets(test)
+            
         return jsonify(output=test)
 
 # Function to return data on solar in all regoin of melbourne from couchdb views and aurin data
@@ -237,6 +239,8 @@ class TweetsOnSolar(Resource):
                     else:
                         test.append(result)
 
+            test = compute_total_tweets(test)
+
         return jsonify(output=test, aurin=aurin_result)
 # Function to return data on electric cars in all regoin of melbourne from couchdb views and aurin data
 
@@ -291,6 +295,8 @@ class TweetsOnElectricCars(Resource):
                                 continue
                     else:
                         test.append(result)
+
+            test = compute_total_tweets(test)
 
         return jsonify(output=test, aurin=aurin_result)
 
