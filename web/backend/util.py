@@ -30,7 +30,7 @@ def get_aurin(search_by="topic", search_region="all", search_topic="all"):
     
     if search_by == "topic":
         # Search by specific topic and all regions
-        for region, analysis in aurin_result["result"]:
+        for region, analysis in aurin_result["result"].items():
             output["result"][region] = analysis[search_topic]
     elif search_by == "region":
         output["result"][search_region] = aurin_result["result"][search_region]

@@ -190,7 +190,7 @@ class TweetsOnSolar(Resource):
     def get(self):
         print("Entering database")
         # get the related aurin data
-        # aurin_result = get_aurin(search_by="topic", search_topic="solar")
+        aurin_result = get_aurin(search_by="topic", search_topic="solar")
         test = []
         regions = []
         labels = []
@@ -236,7 +236,8 @@ class TweetsOnSolar(Resource):
                                 continue
                     else:
                         test.append(result)
-        return jsonify(output=test)
+
+        return jsonify(output=test, aurin=aurin_result)
 # Function to return data on electric cars in all regoin of melbourne from couchdb views and aurin data
 
 
@@ -244,7 +245,7 @@ class TweetsOnElectricCars(Resource):
     def get(self):
         print("Entering database")
         # get the related aurin data
-        # aurin_result = get_aurin(search_by="topic", search_topic="electric_cars")
+        aurin_result = get_aurin(search_by="topic", search_topic="electric_cars")
         test = []
         regions = []
         labels = []
@@ -291,7 +292,7 @@ class TweetsOnElectricCars(Resource):
                     else:
                         test.append(result)
 
-        return jsonify(output=test)
+        return jsonify(output=test, aurin=aurin_result)
 
 
 api.add_resource(Tweet, '/api/tweet')

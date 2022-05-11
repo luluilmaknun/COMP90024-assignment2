@@ -11,7 +11,7 @@ aurin_result = {
   },
   "result": {
     "east": {
-      "motor_vehicle": {
+      "electric_cars": {
         "avg_dwelings": 4145.208333333333,
         "avg_dwelings_with_mv": 4028.5208333333335,
         "ratio_dwelings_with_mv": 0.9718500276423582,
@@ -25,7 +25,7 @@ aurin_result = {
       }
     },
     "north": {
-      "motor_vehicle": {
+      "electric_cars": {
         "avg_dwelings": 5336.547619047619,
         "avg_dwelings_with_mv": 5168.702380952381,
         "ratio_dwelings_with_mv": 0.9685479733196511,
@@ -39,7 +39,7 @@ aurin_result = {
       }
     },
     "south": {
-      "motor_vehicle": {
+      "electric_cars": {
         "avg_dwelings": 5773.511627906977,
         "avg_dwelings_with_mv": 5570.558139534884,
         "ratio_dwelings_with_mv": 0.9648474790643717,
@@ -53,7 +53,7 @@ aurin_result = {
       }
     },
     "west": {
-      "motor_vehicle": {
+      "electric_cars": {
         "avg_dwelings": 4639.714285714285,
         "avg_dwelings_with_mv": 4481.469387755102,
         "ratio_dwelings_with_mv": 0.9658933959691396,
