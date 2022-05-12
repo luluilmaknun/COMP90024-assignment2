@@ -135,7 +135,7 @@ class TweetsOnRecycling(Resource):
     def get(self):
         print("Entering database")
         # get the related aurin data
-        # aurin_result = get_aurin(search_by="topic", search_topic="recycling")
+        aurin_result = get_aurin(search_by="topic", search_topic="recycling")
         test = []
         regions = []
         labels = []
@@ -181,9 +181,7 @@ class TweetsOnRecycling(Resource):
                     else:
                         test.append(result)
 
-            test = compute_total_tweets(test)
-            
-        return jsonify(output=test)
+        return jsonify(output=test, aurin=aurin_result)
 
 # Function to return data on solar in all regoin of melbourne from couchdb views and aurin data
 
