@@ -14,6 +14,7 @@
       kind: Deployment
       metadata:
         name: "harvester-{{item}}"
+        namespace: default
         labels:
           app: "harvester-{{item}}"
       spec:
@@ -28,9 +29,9 @@
           spec:
             containers:
             - name: "harvester-{{item}}"
-              image: harvester
+              image: harvester-ccc39
               imagePullPolicy: Never
               env:
               - name: REGION
                 value: "{{item}}"
-    loop: "{{harvester_regions}}"  
+  loop: "{{harvester_regions}}"  

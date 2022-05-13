@@ -27,21 +27,23 @@
   - role: kubernetes-common
   - role: kubernetes-worker
 
-- hosts: worker
-  gather_facts: true
-  vars:
-      ansible_ssh_private_key_file: '../../ansible-worker-2.pem'
-  roles:
-  - role: ccc39-copy
-  - role: ccc39-build-images
-  - role: ccc39-volumes
+#- hosts: worker
+#  gather_facts: true
+#  vars:
+#      ansible_ssh_private_key_file: '../../ansible-worker-2.pem'
+#  vars_files:
+#    - host_vars/nectar.yaml
+#  roles:
+#  - role: ccc39-copy
+#  - role: ccc39-build-images
+#  - role: ccc39-volumes
 
-- hosts: master
-  gather_facts: true
-  vars:
-     ansible_ssh_private_key_file: '../../ansible-master-2.pem'
-  roles:
-  - role: ccc39-couchdb
-  - role: ccc39-harvester
-  - role: ccc39-backend
-  - role: ccc39-frontend
+#- hosts: master
+#  gather_facts: true
+#  vars:
+#     ansible_ssh_private_key_file: '../../ansible-master-2.pem'
+#  roles:
+#  - role: ccc39-couchdb
+#  - role: ccc39-harvester
+#  - role: ccc39-backend
+#  - role: ccc39-frontend

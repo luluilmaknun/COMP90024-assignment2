@@ -12,26 +12,24 @@
     - gnupg-agent
     - software-properties-common
 
-- name: disable firewall service for 
+- name: disable firewall service for
   become: true
   community.general.ufw:
     state: disabled
 
-- name: Disable SWAP 
+- name: Disable SWAP
   become: true
   shell: |
     swapoff -a
 
-- name: Check whether swap is off or not 
+- name: Check whether swap is off or not
   become: true
   command: grep "swap" /etc/fstab
   register: swapcheck
-  check_mode: no
   ignore_errors: yes
-  changed_when: no
 
 
-- name: Disable SWAP in fstab 
+- name: Disable SWAP in fstab
   become: true
   lineinfile:
     path: /etc/fstab
@@ -52,7 +50,7 @@
 - name: ensure net.bridge.bridge-nf-call-ip6tables is set to 1
   become: true
   shell: |
-          cat >>/etc/sysctl.d/kubernetes.conf<<EOF
+          cat >/etc/sysctl.d/kubernetes.conf<<EOF
           net.bridge.bridge-nf-call-ip6tables = 1
           net.bridge.bridge-nf-call-iptables = 1
           EOF
@@ -121,38 +119,38 @@
     state: present
     update_cache: true
 
-- name: Check whether docker is configured to have systemd
-  become: true
-  command: grep "cgroupdriver=systemd" /lib/systemd/system/docker.service
-  register: checkmyconf
-  check_mode: no
-  ignore_errors: yes
-  changed_when: no
- 
-- name: changing the cgroupdriver to systemd
-  become: true
-  lineinfile:
-    path: "/lib/systemd/system/docker.service"
-    backrefs: yes
-    regexp: "^(.*ExecStart.*)$"
-    line: '\1 --exec-opt native.cgroupdriver=systemd'
-  when: checkmyconf.rc !=0
+#- name: Check whether docker is configured to have systemd
+#  become: true
+#  command: grep "cgroupdriver=systemd" /lib/systemd/system/docker.service
+#  register: checkmyconf
+#  check_mode: no
+#  ignore_errors: yes
+#  changed_when: no
+
+#- name: changing the cgroupdriver to systemd
+#  become: true
+#  lineinfile:
+#    path: "/lib/systemd/system/docker.service"
+#    backrefs: yes
+#    regexp: "^(.*ExecStart.*)$"
+#    line: '\1 --exec-opt native.cgroupdriver=systemd'
+#  when: checkmyconf.rc !=0
 
 
-- name: systemctl daemon-reload
-  become: true
-  ansible.builtin.systemd:
-    daemon_reload: yes
+#- name: systemctl daemon-reload
+#  become: true
+#  ansible.builtin.systemd:
+#    daemon_reload: yes
 
-- name: Remove dependencies that are no longer required
-  become: true
-  apt:
-    autoremove: yes
+#- name: Remove dependencies that are no longer required
+#  become: true
+#  apt:
+#    autoremove: yes
 
 
 - name: Install Kubernetes binaries
   become: true
-  apt: 
+  apt:
     name: "{{item}}"
     state: present
     force: True
@@ -160,9 +158,9 @@
   loop: '{{packages}}'
   vars:
     packages:
-    - kubectl=1.18.5-00
-    - kubeadm=1.18.5-00
-    - kubelet=1.18.5-00 
+    - kubectl=1.19.0-00
+    - kubeadm=1.19.0-00
+    - kubelet=1.19.0-00
 
 - name: hold kubernetes packages
   become: true
@@ -172,17 +170,17 @@
   loop: '{{packages}}'
   vars:
     packages:
-    - kubectl 
+    - kubectl
     - kubeadm
-    - kubelet 
-  
-- name: start Docker
-  become: true
-  service:
-    name: docker
-    state: restarted
-    enabled: true
-  when: checkmyconf.rc !=0
+    - kubelet
+
+#- name: start Docker
+#  become: true
+#  service:
+#    name: docker
+#    state: restarted
+#    enabled: true
+#  when: checkmyconf.rc !=0
 
 - name: start Docker
   become: true
@@ -199,37 +197,36 @@
      enabled: true
 
 
-- name: setting the ip of the current machine
-  set_fact:
-    reboot_ip: "{{hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]}}"
-  when: swapcheck.rc ==0
+#- name: setting the ip of the current machine
+#  set_fact:
+#    reboot_ip: "{{hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]}}"
+#  when: swapcheck.rc ==0
 
-- name: reboot ALL machines
-  become: yes
-  reboot:
-  when: swapcheck.rc ==0
+#- name: reboot ALL machines
+#  become: yes
+#  reboot:
+#  when: swapcheck.rc ==0
 
-- name: Wait for connection
-  ansible.builtin.wait_for:
-    host: "{{reboot_ip}}"
-    port: 22
-    timeout: 120
-    search_regex: OpenSSH
-  when: swapcheck.rc ==0
+#- name: Wait for connection
+#  ansible.builtin.wait_for:
+#    host: "{{reboot_ip}}"
+#    port: 22
+#    timeout: 120
+#    search_regex: OpenSSH
+#  when: swapcheck.rc ==0
 
-- name: start Docker
-  become: true
-  service:
-    name: docker
-    state: restarted
-    enabled: true
-  when: swapcheck.rc ==0
+#- name: start Docker
+#  become: true
+#  service:
+#    name: docker
+#    state: restarted
+#    enabled: true
+#  when: swapcheck.rc ==0
 
-- name: start kubelet
-  become: true
-  service:
-     name: kubelet
-     state: started
-     enabled: true
-  when: swapcheck.rc ==0
-
+#- name: start kubelet
+#  become: true
+#  service:
+#     name: kubelet
+#     state: started
+#     enabled: true
+#  when: swapcheck.rc ==0

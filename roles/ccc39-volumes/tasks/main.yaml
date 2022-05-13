@@ -12,7 +12,6 @@
   community.general.filesystem:
     fstype: xfs
     dev: /dev/vdb
-  when: /dev/vdb is defined
 
 - name: Checking folders
   become: yes
@@ -35,4 +34,3 @@
     src: /dev/vdb
     fstype: xfs
     state: mounted
-  when: /dev/vdb is defined

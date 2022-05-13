@@ -20,7 +20,7 @@
               - ReadWriteOnce
             hostPath:
               path: "/home/ubuntu/ccc39-assignment/data/couchdb"
-        loop: '{{volume_names}}'
+      loop: '{{volume_names}}'
 
     - name: couchdb clusterIP services
       k8s:
@@ -51,6 +51,7 @@
           apiVersion: v1
           metadata:
             name: couch-nodep-svc
+            namespace: default
             labels:
               app: couch
           spec:
@@ -69,6 +70,7 @@
           kind: StatefulSet
           metadata:
             name: couchdb
+            namespace: default
           spec:
             serviceName: "couch-service"
             replicas: 3

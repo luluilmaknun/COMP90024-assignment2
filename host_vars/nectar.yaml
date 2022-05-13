@@ -59,6 +59,20 @@ security_groups:
     port_range_min: 10250
     port_range_max: 10250
     remote_ip_prefix: 0.0.0.0/0
+  - name: calico-BGP
+    description: "Security group for calico BGP peering between different nodes for CCC39 application"
+    protocol: tcp
+    port_range_min: 179
+    port_range_max: 179
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ETCD-ports
+    description: "Security group for ETCD datastore between different nodes for CCC39 application"
+    protocol: tcp
+    port_range_min: 2379
+    port_range_max: 2379
+    remote_ip_prefix: 0.0.0.0/0
+
+
 
 
 
@@ -68,18 +82,23 @@ security_groups:
 # Instance
 instances:
   - name: master-node
-    volumes: ['demo-vol-1-1', 'demo-vol-1-2']
+#    volumes: ['demo-vol-1-1', 'demo-vol-1-2']
+    volumes: []
     key_name: ansible-master-2
   - name: worker-node-1
-    volumes: ['demo-vol-2-1', 'demo-vol-2-2']
+    volumes: couchdb-1
     key_name: ansible-worker-2
+  - name: worker-node-2
+    volumes: couchdb-2
+    key_name: ansible-worker-2
+
 
 
 hosts_groups:
   - name: master-node
     instances: ['master-node']
   - name: worker-node
-    instance: ['worker-node-1']
+    instance: ['worker-node-1','worker-node-2']
 
 component:
   - harvester

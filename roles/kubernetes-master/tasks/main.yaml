@@ -7,17 +7,17 @@
               else
                  echo "1"
               fi
-      register: filecheck 
+      register: filecheck
 
     - name: initialize the cluster
       become: true
-      shell: "kubeadm init --apiserver-advertise-address={{hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2]}} --pod-network-cidr=192.168.0.0/16"
+      shell: "kubeadm init --pod-network-cidr=10.244.0.0/16"
       args:
           chdir: $HOME
           creates: cluster_initialized.txt
       when: filecheck.stdout == "1"
 
-    - name: create .kube directory      
+    - name: create .kube directory
       become: true
       become_user: ubuntu
       file:
@@ -41,7 +41,7 @@
 #              sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 #              sudo chown $(id -u):$(id -g) $HOME/.kube/config
 #              exit $?
-    
+
 #    - name: checking k8s
 #      become_user: ubuntu
 #      k8s:
@@ -49,7 +49,7 @@
 #        kind: Namespace
 #        name: default
 #        state: present
-    
+
     - name: copying the kubernetes-status-checker.sh script
       become: true
       copy: src=manifests/kubernetes-status-checker.sh dest=/tmp/kubernetes-status-checker.sh mode=0777
@@ -88,14 +88,14 @@
     - name: checking kubectl
 #      become: false
 #      become_user: ubuntu
-      shell: pwd; whoami; KUBECONFIG=/home/ubuntu/.kube/config ; kubectl get pods --kubeconfig=/home/ubuntu/.kube/config   
+      shell: pwd; whoami; kubectl get pods
 
-    - name: install Pod network
+    - name: install flannel network plugin
       become_user: ubuntu
-      shell: kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml --kubeconfig=/home/ubuntu/.kube/config
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
       args:
         chdir: $HOME
-        
+
     - name: Get the token for joining the worker nodes
       become: true
       become_user: ubuntu
