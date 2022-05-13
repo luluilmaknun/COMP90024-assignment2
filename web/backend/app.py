@@ -180,6 +180,7 @@ class TweetsOnRecycling(Resource):
                                 continue
                     else:
                         test.append(result)
+            test = compute_total_tweets(test)
 
         return jsonify(output=test, aurin=aurin_result)
 
