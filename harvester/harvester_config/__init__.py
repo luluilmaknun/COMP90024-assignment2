@@ -59,4 +59,4 @@ LOCATIONS["south"] = [144.655, -38.533, 145.901, -38.0]
 
 
 
-COUCHDB_ADDRESS = "http://dev:dev@172.26.131.7:5984/"
+COUCHDB_ADDRESS = "http://dev:dev@couch-service:5984/"

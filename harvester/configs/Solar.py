@@ -17,4 +17,4 @@ KEYWORDS = [
 
 LOCATIONS = [144.6845, -38.0815, 145.3540, -37.5934]
 
-COUCHDB_ADDRESS = "http://dev:dev@172.26.131.7:5984/"
+COUCHDB_ADDRESS = "http://dev:dev@couch-service:5984/"
