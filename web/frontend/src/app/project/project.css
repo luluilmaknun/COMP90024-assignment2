@@ -1,0 +1,19 @@
+.project {
+    padding-left: 30px;
+    padding-right: 25px;
+}
+
+.project h2{
+    font-weight: bolder;
+}
+
+.project h3{
+    font-weight: bolder;
+}
+
+.project p{
+    padding-left: 30px;
+    padding-right: 25px;
+    text-align: justify;
+    line-height: 32px;
+}
