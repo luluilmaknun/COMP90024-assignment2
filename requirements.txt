@@ -1,0 +1,5 @@
+tweepy==3.10.0
+transformers==4.18.0
+emoji==1.7.0
+pysentimiento==0.3.2
+couchdb==1.2.0
