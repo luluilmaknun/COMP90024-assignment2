@@ -1,0 +1,26 @@
+[
+    {
+        "region": "north",
+        "pos": 150,
+        "neu": 100,
+        "neg": 5
+    },
+    {
+        "region": "east",
+        "pos": 67,
+        "neu": 2,
+        "neg": 153
+    },
+    {
+        "region": "south",
+        "pos": 300,
+        "neu": 10,
+        "neg": 51
+    },
+    {
+        "region": "west",
+        "pos": 900,
+        "neu": 150,
+        "neg": 590
+    }
+]
