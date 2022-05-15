@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'analysis',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./analysis.css']
 })
 export class AnalysisComponent {
+  public safeSrc: any;
+
+  constructor(private sanitizer: DomSanitizer){}
+
+  ngOnInit() {
+    this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl("http://localhost:3000/");
+  }
 
 }
