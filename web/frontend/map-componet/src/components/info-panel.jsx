@@ -14,15 +14,15 @@ class InfoPanel extends Component {
     let ENDPOINT;
     switch (this.props.currentLayer) {
       case "recycle":
-        ENDPOINT = "http://127.0.0.1:8081/api/tweet/recycling";
+        ENDPOINT = "http://backend-service:8081/api/tweet/recycling";
         this.layerTitle = "Recycling";
         break;
       case "electric":
-        ENDPOINT = "http://127.0.0.1:8081/api/tweet/electric_cars";
+        ENDPOINT = "http://backend-service:8081/api/tweet/electric_cars";
         this.layerTitle = "Electric Vehicles";
         break;
       case "solar":
-        ENDPOINT = "http://127.0.0.1:8081/api/tweet/solar";
+        ENDPOINT = "http://backend-service:8081/api/tweet/solar";
         this.layerTitle = "Renewable Energy";
         break;
     }
