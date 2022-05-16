@@ -1,0 +1,28 @@
+- name: checking if the directory exists
+  stat:
+    path: ./ccc39-assignment
+  register: assignment_folder
+
+- name: create the directory if it does not exists
+  file:
+     path: ./ccc39-assignment
+     state: directory
+     mode: 0755
+     group: ubuntu
+     owner: ubuntu
+  when: assignment_folder.stat.exists == false
+
+- name: copy the harvester files
+  copy:
+    src: ./harvester
+    dest: ./ccc39-assignment
+
+- name: copy the frontend files
+  copy:
+    src: ./frontend
+    dest: ./ccc39-assignment
+
+#- name: copy the couchdb-setup files
+#  copy:
+#    src: ./couchdb-setup
+#    dest: /usr/local/src/ccc39-assignment

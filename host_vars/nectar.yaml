@@ -1,0 +1,105 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+instance_image: 356ff1ed-5960-4ac2-96a1-0c0198e6a999
+#instance_key_name: id_alwyn
+instance_flavor: uom.mse.2c9g
+
+# Volume
+volumes:
+  - vol_name: couchdb-1
+    vol_size: 50
+  - vol_name: couchdb-2
+    vol_size: 50
+  - vol_name: couchdb-3
+    vol_size: 50
+
+volume_mountpoint: /home/ubuntu/data/couchdb
+
+# Security group
+security_groups:
+  - name: ccc39_ssh
+    description: "Security group for SSH access for CCC39 application"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ccc39_http
+    description: "Security group for HTTP for CCC39 application"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: node-nodeport
+    description: "Security group for Frontend NodeJS for CCC39 application"
+    protocol: tcp
+    port_range_min: 30080
+    port_range_max: 30080
+    remote_ip_prefix: 0.0.0.0/0
+  - name: couchdb-nodeport-2
+    description: "Security group for couchdb for CCC39 application"
+    protocol: tcp
+    port_range_min: 30984
+    port_range_max: 30984
+    remote_ip_prefix: 0.0.0.0/0
+  - name: icmp
+    description: "Security group for ICMP for CCC39 application"
+    protocol: icmp
+    port_range_min: -1
+    port_range_max: -1
+    remote_ip_prefix: 0.0.0.0/0
+  - name: kubernetes-API-server
+    description: "Security group for kubernetes API server for CCC39 application"
+    protocol: tcp
+    port_range_min: 6443
+    port_range_max: 6443
+    remote_ip_prefix: 0.0.0.0/0
+  - name: kubelet-API
+    description: "Security group for kubelet API for CCC39 application"
+    protocol: tcp
+    port_range_min: 10250
+    port_range_max: 10250
+    remote_ip_prefix: 0.0.0.0/0
+  - name: calico-BGP
+    description: "Security group for calico BGP peering between different nodes for CCC39 application"
+    protocol: tcp
+    port_range_min: 179
+    port_range_max: 179
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ETCD-ports
+    description: "Security group for ETCD datastore between different nodes for CCC39 application"
+    protocol: tcp
+    port_range_min: 2379
+    port_range_max: 2379
+    remote_ip_prefix: 0.0.0.0/0
+
+
+
+
+
+
+
+
+# Instance
+instances:
+  - name: master-node
+#    volumes: ['demo-vol-1-1', 'demo-vol-1-2']
+    volumes: []
+    key_name: ansible-master-2
+  - name: worker-node-1
+    volumes: couchdb-1
+    key_name: ansible-worker-2
+  - name: worker-node-2
+    volumes: couchdb-2
+    key_name: ansible-worker-2
+
+
+
+hosts_groups:
+  - name: master-node
+    instances: ['master-node']
+  - name: worker-node
+    instance: ['worker-node-1','worker-node-2']
+
+component:
+  - harvester
+  - frontend
