@@ -1,14 +1,14 @@
 [
   {
     "name": "tweet/recycle",
-    "body": "snoop dawgy dawg et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facer"
+    "body": "There are two datasets used for recycling. (1) The dataset on 'Land & Environment' (2018) from the Australian Bureau of Statistics presents information in the following specified areas of land and environment: land Area, protected land areas and solar installations. (2) The dataset on 'Agriculture Commodities' (2016) from The Agricultural Census dataset presents the estimations of agricultural commodity values. (2) "
   },
   {
       "name":"tweet/solar",
-      "body":"gucci mang eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
+      "body":"The dataset is acquired from the Australian Bureau of Statistics on 'Land & Environment' (2018). The dataset presents information in the following specified areas of land and environment: land Area, protected land areas and solar installations. Solar installation is considered to have a positive impact on the environment since solar does not release harmful gasses in the environment (Solar energy and the environment - U.S. Energy Information Administration (EIA), 2022)."
   },
   {
       "name":"tweet/electric",
-      "body": "1,2,3,4,5,6 ms in my bank acocunt dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      "body": "The dataset used is 'Number of Motor Vehicle by Dweling Census' (2016). The dataset describes the count of occupied private dwellings categorized by the number of registered motor vehicles owned or used by household members. "
   }
 ]
