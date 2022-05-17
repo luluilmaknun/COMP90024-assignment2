@@ -19,7 +19,18 @@
 
 - name: copy the frontend files
   copy:
-    src: ./frontend
+    src: ./web/frontend
+    dest: ./ccc39-assignment
+
+- name: copy the backend files
+  copy:
+    src: ./web/backend
+    dest: ./ccc39-assignment
+
+
+- name: copy the map-component files
+  copy:
+    src: ./web/frontend/map-component
     dest: ./ccc39-assignment
 
 #- name: copy the couchdb-setup files

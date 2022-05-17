@@ -1,0 +1,41 @@
+#- hosts: localhost
+#  vars_files:
+#    - host_vars/nectar.yaml
+#  gather_facts: true
+
+# roles:
+#    - role: openstack-common
+#    - role: openstack-images
+#    - role: openstack-volume
+#    - role: openstack-security-group
+#    - role: openstack-instance
+#    - role: openstack-volume-snapshot
+
+- hosts: master
+  gather_facts: true
+  roles:
+  - role: kubernetes-common
+  - role: kubernetes-master
+
+- hosts: worker
+  gather_facts: true
+  roles:
+  - role: kubernetes-common
+  - role: kubernetes-worker
+
+- hosts: worker
+  gather_facts: true
+  vars_files:
+    - host_vars/nectar.yaml
+  roles:
+  - role: ccc39-copy
+  - role: ccc39-build-images
+  - role: ccc39-volumes
+
+- hosts: master
+  gather_facts: true
+  roles:
+  - role: ccc39-couchdb
+  - role: ccc39-harvester
+  - role: ccc39-backend
+  - role: ccc39-frontend

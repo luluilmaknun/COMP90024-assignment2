@@ -19,7 +19,7 @@
             accessModes:
               - ReadWriteOnce
             hostPath:
-              path: "/home/ubuntu/ccc39-assignment/data/couchdb"
+              path: "{{volume_mountpoint}}/couchdb"
       loop: '{{volume_names}}'
 
     - name: couchdb clusterIP services
@@ -84,7 +84,7 @@
               spec:
                 containers:
                 - name: couchdb
-                  image: couchdb:2.2.0
+                  image: couchdb:3.2.2
                   env:
                   - name: NODE_NETBIOS_NAME
                     valueFrom:
@@ -95,13 +95,13 @@
                   - name: COUCHDB_USER
                     value: admin
                   - name: COUCHDB_PASSWORD
-                    value: password
+                    value: admin
                   - name: COUCHDB_SECRET
-                    value: monster
+                    value: ccc39
                   - name: ERL_FLAGS
                     value: "-name couchdb@$(NODENAME)"
                   - name: ERL_FLAGS
-                    value: "-setcookie monster" #   the “password” used when nodes connect to each other.
+                    value: "-setcookie ccc39" #   the “password” used when nodes connect to each other.
                   ports:
                   - name: couchdb
                     containerPort: 5984
@@ -122,3 +122,18 @@
                 selector:
                   matchLabels:
                     volume: couch-volume
+    - name: Wait for all couchdb pods to be created
+      shell: "kubectl get statefulset couchdb --output=jsonpath='{.status.readyReplicas}'"
+      register: couchdb_pods_created
+      until: couchdb_pods_created.stdout=='3'
+      retries: 10
+      delay: 30
+
+    - name: Copy the couchdb kubernetes cluster setup command to the master node
+      copy: src=manifests/couchdb-kubernetes-cluster-setup.sh dest=/tmp/couchdb-kubernetes-cluster-setup.sh mode=0777
+
+    - name: copy the couchdb cluster setup script to the pods
+      shell: "kubectl cp /tmp/couchdb-kubernetes-cluster-setup.sh default/couchdb-0:./"
+
+    - name: enabling the couchdb cluster and making the required databases
+      shell: kubectl exec couchdb-0 -- ./couchdb-kubernetes-cluster-setup.sh

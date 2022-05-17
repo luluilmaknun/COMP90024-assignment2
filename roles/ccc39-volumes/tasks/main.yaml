@@ -34,3 +34,18 @@
     src: /dev/vdb
     fstype: xfs
     state: mounted
+
+- name: Checking folder for couchdb
+  become: yes
+  ansible.builtin.stat:
+    path: "{{ volume_mountpoint }}/couchdb"
+  register: directory_stats_couchdb
+
+- name: Create directory for couchdb
+  become: yes
+  ansible.builtin.file:
+    path: "{{ volume_mountpoint }}/couchdb"
+    recurse: yes
+    state: directory
+  when: directory_stats_couchdb.stat.exists == false
+

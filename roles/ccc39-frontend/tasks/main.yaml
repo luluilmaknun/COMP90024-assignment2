@@ -37,6 +37,11 @@
                   imagePullPolicy: Never
                   ports:
                   - containerPort: 4200
+                - name: map-component
+                  image: map-component-ccc39
+                  imagePullPolicy: Never
+                  ports:
+                  - containerPort: 3000
     - name: check if deployment is ready
       k8s_info:
         kind: Deployment
@@ -58,7 +63,7 @@
           kind: Service
           apiVersion: v1
           metadata:
-            name: frontend-external
+            name: frontend-service
             namespace: default
             labels:
               app: frontend
@@ -68,6 +73,26 @@
             - port: 4200
               targetPort: 4200
               nodePort: 30080         # external port
+              protocol: TCP
+            selector:
+              app: frontend     # label selector
+    - name: map-component service
+      k8s:
+        state: present
+        definition:
+          kind: Service
+          apiVersion: v1
+          metadata:
+            name: map-component-service
+            namespace: default
+            labels:
+              app: frontend
+          spec:
+            type: NodePort            # NodePort service
+            ports:
+            - port: 3000
+              targetPort: 3000
+              nodePort: 30030         # external port
               protocol: TCP
             selector:
               app: frontend     # label selector
